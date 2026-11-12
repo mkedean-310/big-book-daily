@@ -143,3 +143,6 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 [data-theme="dark"] .q .num{background:var(--gold2);color:#0f1b30}
 .titlepage .t2{font-size:.92em}
 .post blockquote.poem p{white-space:pre-line;font-style:italic}
+.prayer.poem{white-space:normal;text-align:left;padding:18px 14px;font-size:clamp(14.5px,3.65vw,1.05em);line-height:1.6}
+.prayer.poem::before{text-align:center}
+.prayer.poem .pl{display:block;padding-left:1.2em;text-indent:-1.2em}
