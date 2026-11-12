@@ -146,3 +146,12 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .prayer.poem{white-space:normal;text-align:left;padding:18px 14px;font-size:clamp(14.5px,3.65vw,1.05em);line-height:1.6}
 .prayer.poem::before{text-align:center}
 .prayer.poem .pl{display:block;padding-left:1.2em;text-indent:-1.2em}
+
+/* Work the Steps */
+@media (max-width:759px){.tabs a{font-size:14px}}
+@media (max-width:759px){.tabs{gap:0}.tabs a{flex:1 1 auto;padding:10px 4px;letter-spacing:0}}
+@media (max-width:420px){.tabs a{font-size:13px;padding:10px 3px}.bar{gap:0;padding-left:2px;padding-right:2px}.icon-btn{width:38px}}
+.steps-list .stepno{flex:0 0 auto;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:var(--gold2);font-family:var(--sans);font-weight:700;font-size:15px}
+[data-theme="dark"] .steps-list .stepno{background:var(--gold2);color:#0f1b30}
+.steps-list .tt small{font-style:italic}
+.daynav .in.three{grid-template-columns:52px 1fr 52px}

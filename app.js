@@ -2,7 +2,7 @@
 'use strict';
 var APP='The Story of How We Recovered';
 var K={cur:'bbd:current',done:'bbd:done',j:'bbd:journal',fs:'bbd:fs',th:'bbd:theme'};
-var DATA=null, DAYS=[], READ=[];
+var DATA=null, DAYS=[], READ=[], STEPS=[];
 var main=document.getElementById('main'), bar=document.getElementById('bar');
 
 function ls(k,d){try{var v=localStorage.getItem(k);return v===null?d:JSON.parse(v);}catch(e){return d;}}
@@ -116,6 +116,7 @@ function viewCover(){
       el('a',{class:'btn btn-gold',href:'#/today',text:started?('Continue \u00b7 Day '+c+' of '+total()):'Begin with Day 1'}),
       el('a',{class:'btn btn-ghost',href:'#/reading/about',text:'How to use this study'}),
       el('a',{class:'btn btn-ghost',href:'#/contents',text:'Contents'}),
+      el('a',{class:'btn btn-ghost',href:'#/steps',text:'Work the Steps'}),
       el('a',{class:'btn btn-ghost',href:'#/readings',text:'Readings & prayers'})
     ]),
     started?el('p',{class:'progress-note',text:d+' of '+total()+' days completed'}):null,
@@ -211,6 +212,7 @@ function viewSearch(q){
   if(!q){inp.focus();return;}
   var nq=norm(q),res=[];
   DAYS.forEach(function(d){var txt=d.title+'\n'+plain(d.items);var nt=norm(txt);var i=nt.indexOf(nq);if(i>=0){res.push({href:'#/day/'+d.day,lab:'Day '+d.day,title:d.title,sub:d.section,txt:txt,i:i});}});
+  STEPS.forEach(function(s){var txt='Step '+s.n+' \u00b7 '+s.name+'\n'+plain(s.items);var nt=norm(txt);var i=nt.indexOf(nq);if(i>=0)res.push({href:'#/step/'+s.n,lab:'Step '+s.n,title:s.name,sub:'Work the Steps',txt:txt,i:i});});
   READ.forEach(function(r){var txt=r.title+'\n'+plain(r.items);var nt=norm(txt);var i=nt.indexOf(nq);if(i>=0)res.push({href:'#/reading/'+r.id,lab:'Reading',title:r.title,sub:r.group,txt:txt,i:i});});
   w.appendChild(el('p',{class:'lead',text:res.length+(res.length===1?' match':' matches')+' for \u201c'+q+'\u201d'}));
   if(!res.length){w.appendChild(el('p',{class:'empty',text:'Nothing found. Try a shorter word.'}));return;}
@@ -221,6 +223,43 @@ function viewSearch(q){
     ul.appendChild(el('li',null,[el('a',{href:r.href},[el('span',{class:'dn',text:r.lab}),el('span',{class:'tt'},[r.title,el('small',{text:r.sub}),snip])])]));
   });
   w.appendChild(ul);
+}
+
+
+var WORDS=['One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve'];
+function viewSteps(){
+  var w=shell('steps');document.title='Work the Steps \u00b7 '+APP;
+  w.appendChild(el('h1',{class:'page-h',text:'Work the Steps'}));
+  var intro=DATA.stepsIntro||{};
+  if(intro.lead)w.appendChild(el('p',{class:'lead',text:intro.lead}));
+  if(intro.items)w.appendChild(renderItems(intro.items,{}));
+  w.appendChild(el('h2',{class:'sec',text:'The Twelve Steps'}));
+  var ul=el('ul',{class:'items steps-list'});
+  STEPS.forEach(function(s){
+    ul.appendChild(el('li',null,[el('a',{href:'#/step/'+s.n,'aria-label':'Step '+s.n+': '+s.name},[
+      el('span',{class:'stepno','aria-hidden':'true',text:String(s.n)}),
+      el('span',{class:'tt'},['Step '+WORDS[s.n-1]+' \u00b7 '+s.name,el('small',{text:s.wording})])])]));
+  });
+  w.appendChild(ul);
+  w.appendChild(el('p',{class:'disclaimer',text:'An independent study guide; not affiliated with Alcoholics Anonymous World Services.'}));
+}
+function viewStep(n){
+  n=Math.min(Math.max(1,n|0),STEPS.length);var s=STEPS[n-1];if(!s){location.hash='#/steps';return;}
+  var w=shell('steps');document.title='Step '+n+' \u00b7 '+s.name+' \u00b7 '+APP;
+  w.appendChild(el('p',{class:'kicker',text:'Work the Steps \u00b7 Step '+n+' of '+STEPS.length}));
+  w.appendChild(el('h1',{class:'day-title',text:'Step '+WORDS[n-1]+': '+s.name}));
+  w.appendChild(renderItems(s.items,{}));
+  w.appendChild(el('div',{class:'endmark','aria-hidden':'true',text:'\u25b3'}));
+  var btns=el('div',{class:'row-btns'},[el('a',{class:'btn btn-line',href:'#/steps',text:'\u2190 All steps'})]);
+  btns.appendChild(el('button',{class:'btn btn-line',type:'button',onclick:function(){var t='Step '+n+' \u00b7 '+s.name+'\n\n'+plain(s.items)+'\n\n\u2014 '+APP;var u=location.href;if(navigator.share)navigator.share({title:'Step '+n+' \u00b7 '+s.name,text:t+'\n'+u}).catch(function(){});else copy(t+'\n'+u);}},['Share']));
+  w.appendChild(btns);
+  w.appendChild(el('p',{class:'disclaimer',text:'An independent study guide; not affiliated with Alcoholics Anonymous World Services.'}));
+  var nav=el('nav',{class:'daynav','aria-label':'Step navigation'},[el('div',{class:'in three'},[
+    el('button',{class:'sq',type:'button','aria-label':'Previous step',disabled:n===1?'':null,onclick:function(){location.hash='#/step/'+(n-1);}},[svg(I.prev)]),
+    el('button',{class:'btn btn-navy main',type:'button',onclick:function(){location.hash=n<STEPS.length?'#/step/'+(n+1):'#/steps';}},[n<STEPS.length?'Step '+(n+1)+' \u2192':'All steps']),
+    el('button',{class:'sq',type:'button','aria-label':'Next step',disabled:n===STEPS.length?'':null,onclick:function(){location.hash='#/step/'+(n+1);}},[svg(I.next)])
+  ])]);
+  main.appendChild(nav);
 }
 
 function viewReadings(){
@@ -280,6 +319,8 @@ function route(){
   else if(p[0]==='day')viewDay(parseInt(p[1],10)||1);
   else if(p[0]==='contents')viewContents();
   else if(p[0]==='search')viewSearch(decodeURIComponent(p.slice(1).join('/')||''));
+  else if(p[0]==='steps')viewSteps();
+  else if(p[0]==='step')viewStep(parseInt(p[1],10)||1);
   else if(p[0]==='readings')viewReadings();
   else if(p[0]==='reading')viewReading(p[1]);
   else if(p[0]==='journal')viewJournal();
@@ -304,7 +345,7 @@ document.querySelectorAll('[data-th]').forEach(function(b){b.addEventListener('c
 
 /* ---------- boot ---------- */
 main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Loading\u2026'})]));
-fetch('data.json').then(function(r){return r.json();}).then(function(d){DATA=d;DAYS=d.days;READ=d.readings;route();})
+fetch('data.json').then(function(r){return r.json();}).then(function(d){DATA=d;DAYS=d.days;READ=d.readings;STEPS=d.steps||[];route();})
  .catch(function(){main.innerHTML='';main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Could not load the readings. Please check your connection and try again.'})]));});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 })();
