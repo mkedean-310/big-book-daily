@@ -1,0 +1,16 @@
+{
+  "name": "The Story of How We Recovered",
+  "short_name": "How We Recovered",
+  "description": "A daily study of the Big Book, with questions for reflection and a private journal.",
+  "id": "./",
+  "start_url": "./#/today",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f1b30",
+  "theme_color": "#0f1b30",
+  "icons": [
+    { "src": "icons/icon-master.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
