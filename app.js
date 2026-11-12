@@ -55,6 +55,7 @@ function renderItems(items,ctx){
         var bq=el('blockquote',{class:it.poem?'poem':null});if(it.poem){bq.appendChild(el('p',{text:it.x}));}else{it.x.split('\n').forEach(function(l){bq.appendChild(para(l));});}box.appendChild(bq);break;
       case 'prayer': if(it.poem){var pd=el('div',{class:'prayer poem'});it.x.split('\n').forEach(function(l){pd.appendChild(el('span',{class:'pl',text:l}));});box.appendChild(pd);}else box.appendChild(el('div',{class:'prayer',text:it.x}));break;
       case 'note': box.appendChild(el('p',{class:'note',text:it.x}));break;
+      case 'label': box.appendChild(el('p',{class:'reflabel',text:it.x}));break;
       case 'link': var p=el('p');p.appendChild(linkify(it.x));box.appendChild(p);break;
       case 'table':
         var tb=el('table',{class:'ex'});var tr=el('tr');[0,1,2].forEach(function(){tr.appendChild(el('th',{text:it.head}));});tb.appendChild(el('thead',null,[tr]));

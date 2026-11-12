@@ -155,3 +155,4 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 [data-theme="dark"] .steps-list .stepno{background:var(--gold2);color:#0f1b30}
 .steps-list .tt small{font-style:italic}
 .daynav .in.three{grid-template-columns:52px 1fr 52px}
+.post .reflabel{font-family:var(--sans);font-weight:700;font-size:.85em;color:var(--accent);margin:18px 0 6px;letter-spacing:.02em}
