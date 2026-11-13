@@ -234,6 +234,7 @@ function viewSteps(){
   var w=shell('steps');document.title='Work the Steps \u00b7 '+APP;
   w.appendChild(el('h1',{class:'page-h',text:'Work the Steps'}));
   var intro=DATA.stepsIntro||{};
+  if(intro.box){w.appendChild(el('div',{class:'prayer boxq'},[el('span',{class:'bq',text:intro.box.x}),intro.box.cite?el('span',{class:'cite',text:intro.box.cite}):null]));}
   if(intro.lead){var lp=el('p',{class:'lead'});intro.lead.split(/(\u201c[^\u201d]*\u201d)/).forEach(function(s){if(!s)return;lp.appendChild(/^\u201c/.test(s)?el('em',{class:'inline-prayer',text:s}):document.createTextNode(s));});w.appendChild(lp);}
   if(intro.items)w.appendChild(renderItems(intro.items,{}));
   w.appendChild(el('h2',{class:'sec',text:'The Twelve Steps'}));
