@@ -64,7 +64,7 @@ function renderItems(items,ctx){
         tb.appendChild(el('tbody',null,[r1,r2]));box.appendChild(tb);break;
       case 'li':
         if(!list)list=el('ul',{class:'list'});
-        list.appendChild(el('li',{class:'li'},[el('span',{class:'n',text:it.n==='•'?'•':it.n+'.'}),el('span',{class:'t'},[linkify(it.x)])]));break;
+        list.appendChild(el('li',{class:'li'},[el('span',{class:'n',text:it.n==='•'?'•':(/^\(/.test(it.n)?it.n:it.n+'.')}),el('span',{class:'t'},[linkify(it.x)])]));break;
       case 'q':
         qn++;box.appendChild(question(it,qn,ctx));break;
       default: box.appendChild(para(it.x));
@@ -166,7 +166,7 @@ function plain(items){
   items.forEach(function(it){
     if(it.t==='titlepage')out.push(it.lines.join('\n'));
     else if(it.t==='q'){qn++;out.push(qn+'. '+it.x);}
-    else if(it.t==='li')out.push((it.n==='•'?'\u2022':it.n+'.')+' '+it.x);
+    else if(it.t==='li')out.push((it.n==='•'?'\u2022':(/^\(/.test(it.n)?it.n:it.n+'.'))+' '+it.x);
     else if(it.t==='h')out.push('\n'+it.x.toUpperCase());
     else if(it.t==='ref')out.push('   ('+it.x+')');
     else if(it.t==='grid')out.push(it.rows.map(function(r){return '   '+r[0]+': '+r.slice(1).join(', ');}).join('\n'));
