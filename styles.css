@@ -157,3 +157,6 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .daynav .in.three{grid-template-columns:52px 1fr 52px}
 .post .reflabel{font-family:var(--sans);font-weight:700;font-size:.85em;color:var(--accent);margin:18px 0 6px;letter-spacing:.02em}
 .lead .inline-prayer{color:var(--ink)}
+.post table.grid{border-collapse:collapse;margin:-.2em 0 .9em 2.2em;font-size:.92em}
+.post table.grid th{font-family:var(--sans);font-size:.8em;font-weight:700;color:var(--accent);text-align:left;padding:4px 12px 4px 0;white-space:nowrap}
+.post table.grid td{padding:4px 12px 4px 0}
