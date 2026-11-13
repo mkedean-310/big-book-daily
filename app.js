@@ -39,7 +39,7 @@ function linkify(text){
   while((m=re.exec(text))){frag.appendChild(document.createTextNode(text.slice(last,m.index)));var u=m[0].replace(/[.,;]$/,'');var href=/^http/.test(u)?u:'http://'+u;
     frag.appendChild(el('a',{href:href,target:'_blank',rel:'noopener',class:'link',text:u}));last=m.index+u.length;}
   frag.appendChild(document.createTextNode(text.slice(last)));return frag;}
-function para(text){var p=el('p');p.appendChild(linkify(text));return p;}
+function para(text){var p=el('p');String(text).split(/\*\*(.+?)\*\*/).forEach(function(s,i){if(!s)return;if(i%2)p.appendChild(el('strong',{text:s}));else p.appendChild(linkify(s));});return p;}
 function renderItems(items,ctx){
   var box=el('div',{class:'post'});var list=null;var qn=0;
   items.forEach(function(it){
@@ -171,7 +171,7 @@ function plain(items){
     else if(it.t==='table')out.push(it.rows.map(function(r){return it.head+': '+r[0]+' \u2013 '+r[1];}).join('\n'));
     else if(it.x)out.push(it.x);
   });
-  return out.join('\n\n').replace(/\n{3,}/g,'\n\n');
+  return out.join('\n\n').replace(/\*\*(.+?)\*\*/g,'$1').replace(/\n{3,}/g,'\n\n');
 }
 function share(n){
   var d=DAYS[n-1];var url=location.href.split('#')[0]+'#/day/'+n;
