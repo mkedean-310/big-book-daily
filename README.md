@@ -1,4 +1,4 @@
-# The Story of How We Recovered
+# Alcoholics Anonymous: A guided path to recovery
 
 A daily study of the Big Book, made as an installable phone app (PWA).
 
