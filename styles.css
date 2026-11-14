@@ -169,3 +169,6 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .cover .sub .ph{white-space:nowrap}
 .cover .sub .sep{font-style:normal;font-size:1.05em;line-height:1;color:var(--gold2);margin:0 .15em}
 .q .qt{white-space:pre-line}
+.contactwrap{margin:-.3em 0 1.3em}
+.contactbtn{font-family:var(--sans);font-size:15px;font-weight:600;color:#1a1408;background:linear-gradient(180deg,var(--gold2),var(--gold));border:1px solid var(--gold);border-radius:999px;padding:9px 20px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.contactbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}

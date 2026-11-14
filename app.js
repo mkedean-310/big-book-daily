@@ -59,6 +59,7 @@ function renderItems(items,ctx){
       case 'qbox': box.appendChild(el('div',{class:'prayer boxq'},[el('span',{class:'bq',text:it.x}),it.cite?el('span',{class:'cite',text:it.cite}):null]));break;
       case 'label': box.appendChild(el('p',{class:'reflabel',text:it.x}));break;
       case 'link': var p=el('p');p.appendChild(linkify(it.x));box.appendChild(p);break;
+      case 'contact': var cb=el('button',{class:'contactbtn',type:'button',text:it.x||'Contact Mike'});cb.addEventListener('click',function(){var r=function(s){return s.split('').reverse().join('');};var a=r(it.u||'')+String.fromCharCode(64)+r(it.d||'');window.location.href='mai'+'lto:'+a+'?subject='+encodeURIComponent(it.s||'Big Book Daily app');});box.appendChild(el('p',{class:'contactwrap'},[cb]));break;
       case 'table':
         var tb=el('table',{class:'ex'});var tr=el('tr');[0,1,2].forEach(function(){tr.appendChild(el('th',{text:it.head}));});tb.appendChild(el('thead',null,[tr]));
         var r1=el('tr'),r2=el('tr');it.rows.forEach(function(r){r1.appendChild(el('td',null,[el('strong',{text:r[0]})]));r2.appendChild(el('td',{text:r[1]}));});
