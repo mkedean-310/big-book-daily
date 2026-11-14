@@ -1,6 +1,6 @@
 (function(){
 'use strict';
-var APP='The Story of How We Recovered';
+var APP='Alcoholics Anonymous \u00b7 A guided path to recovery';
 var K={cur:'bbd:current',done:'bbd:done',j:'bbd:journal',fs:'bbd:fs',th:'bbd:theme'};
 var DATA=null, DAYS=[], READ=[], STEPS=[];
 var main=document.getElementById('main'), bar=document.getElementById('bar');
@@ -112,8 +112,8 @@ function viewCover(){
   var cv=el('section',{class:'cover','aria-label':'Cover'},[
     el('p',{class:'kicker',text:'A daily study of the Big Book'}),
     svg(EMBLEM),
-    el('h1',{text:APP}),
-    el('p',{class:'sub',text:'One reading a day \u00b7 Questions to sit with \u00b7 A private journal'}),
+    el('h1',null,['Alcoholics Anonymous',el('span',{class:'h1sub',text:'A guided path to recovery'})]),
+    el('p',{class:'sub'},[el('span',{class:'ph',text:'One reading a day'}),' ',el('span',{class:'sep','aria-hidden':'true',text:'\u2022'}),' ',el('span',{class:'ph',text:'Work the steps'}),' ',el('span',{class:'sep','aria-hidden':'true',text:'\u2022'}),' ',el('span',{class:'ph',text:'A private journal'})]),
     el('hr',{class:'rule'}),
     el('div',{class:'actions'},[
       el('a',{class:'btn btn-gold',href:'#/today',text:started?('Continue \u00b7 Day '+c+' of '+total()):'Begin with Day 1'}),
