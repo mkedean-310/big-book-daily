@@ -35,9 +35,9 @@ function saveJ(id,text){var j=journal();if(text&&text.trim()){j[id]={t:text,ts:D
 
 /* ---------- rendering of content items ---------- */
 function linkify(text){
-  var frag=document.createDocumentFragment();var re=/(https?:\/\/[^\s)]+|www\.[^\s)]+)/g;var last=0,m;
-  while((m=re.exec(text))){frag.appendChild(document.createTextNode(text.slice(last,m.index)));var u=m[0].replace(/[.,;]$/,'');var href=/^http/.test(u)?u:'http://'+u;
-    frag.appendChild(el('a',{href:href,target:'_blank',rel:'noopener',class:'link',text:u}));last=m.index+u.length;}
+  var frag=document.createDocumentFragment();var re=/(https?:\/\/[^\s)]+|www\.[^\s)]+|[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-Za-z]{2,})/g;var last=0,m;
+  while((m=re.exec(text))){frag.appendChild(document.createTextNode(text.slice(last,m.index)));var u=m[0].replace(/[.,;]$/,'');var mail=u.indexOf('@')>0&&!/^(https?:|www\.)/.test(u);var href=mail?'mailto:'+u:(/^http/.test(u)?u:'http://'+u);
+    frag.appendChild(mail?el('a',{href:href,class:'link',text:u}):el('a',{href:href,target:'_blank',rel:'noopener',class:'link',text:u}));last=m.index+u.length;}
   frag.appendChild(document.createTextNode(text.slice(last)));return frag;}
 function para(text){var p=el('p');String(text).split(/\*\*(.+?)\*\*/).forEach(function(s,i){if(!s)return;if(i%2)p.appendChild(el('strong',{text:s}));else p.appendChild(linkify(s));});return p;}
 function renderItems(items,ctx){
