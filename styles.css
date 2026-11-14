@@ -168,3 +168,4 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .cover h1{margin-bottom:14px}
 .cover .sub .ph{white-space:nowrap}
 .cover .sub .sep{font-style:normal;font-size:1.05em;line-height:1;color:var(--gold2);margin:0 .15em}
+.q .qt{white-space:pre-line}
