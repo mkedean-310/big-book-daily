@@ -174,3 +174,5 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .contactbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
 .post .li.sub{margin-left:2.2em}
 .post .li.sub .n{min-width:1.1em}
+.prayer.boxq .bq{white-space:pre-line}
+.prayer.boxq.alt{background:transparent;border:1.5px dashed var(--gold);margin-top:22px}
