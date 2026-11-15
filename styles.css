@@ -172,3 +172,5 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .contactwrap{margin:-.3em 0 1.3em}
 .contactbtn{font-family:var(--sans);font-size:15px;font-weight:600;color:#1a1408;background:linear-gradient(180deg,var(--gold2),var(--gold));border:1px solid var(--gold);border-radius:999px;padding:9px 20px;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.15)}
 .contactbtn:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+.post .li.sub{margin-left:2.2em}
+.post .li.sub .n{min-width:1.1em}

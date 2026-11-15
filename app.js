@@ -66,7 +66,7 @@ function renderItems(items,ctx){
         tb.appendChild(el('tbody',null,[r1,r2]));box.appendChild(tb);break;
       case 'li':
         if(!list)list=el('ul',{class:'list'});
-        list.appendChild(el('li',{class:'li'},[el('span',{class:'n',text:it.n==='•'?'•':(/^\(/.test(it.n)?it.n:it.n+'.')}),el('span',{class:'t'},[linkify(it.x)])]));break;
+        list.appendChild(el('li',{class:it.sub?'li sub':'li'},[el('span',{class:'n',text:it.n==='•'?'•':(/^\(/.test(it.n)?it.n:it.n+'.')}),el('span',{class:'t'},[linkify(it.x)])]));break;
       case 'q':
         qn++;box.appendChild(question(it,qn,ctx));break;
       default: box.appendChild(para(it.x));
