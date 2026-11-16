@@ -291,7 +291,7 @@ function viewReading(id){
   w.appendChild(btns);
 }
 
-function qIndex(){var m={};DAYS.forEach(function(d){d.items.forEach(function(it){if(it.id)m[it.id]={day:d.day,q:it.x,title:d.title};});});return m;}
+function qIndex(){var m={};DAYS.forEach(function(d){var n=0;d.items.forEach(function(it){if(it.t==='q')n++;if(it.id)m[it.id]={day:d.day,q:it.x,title:d.title,n:n};});});return m;}
 function viewJournal(){
   var w=shell('journal');document.title='My Journal \u00b7 '+APP;
   w.appendChild(el('h1',{class:'page-h',text:'My Journal'}));
@@ -303,14 +303,14 @@ function viewJournal(){
   var byDay={};keys.forEach(function(k){var d=idx[k].day;(byDay[d]=byDay[d]||[]).push(k);});
   Object.keys(byDay).map(Number).sort(function(a,b){return a-b;}).forEach(function(d){
     var card=el('article',{class:'jentry'},[el('h3',null,[el('a',{href:'#/day/'+d,text:'Day '+d+' \u00b7 '+DAYS[d-1].title})])]);
-    byDay[d].forEach(function(k){var qn=k.split('-')[1];card.appendChild(el('p',{class:'qq',text:qn+'. '+idx[k].q}));card.appendChild(el('p',{class:'aa',text:j[k].t}));card.appendChild(el('time',{text:new Date(j[k].ts).toLocaleString()}));});
+    byDay[d].forEach(function(k){var qn=idx[k].n;card.appendChild(el('p',{class:'qq',text:qn+'. '+idx[k].q}));card.appendChild(el('p',{class:'aa',text:j[k].t}));card.appendChild(el('time',{text:new Date(j[k].ts).toLocaleString()}));});
     w.appendChild(card);
   });
 }
 function exportJ(keys,j,idx){
   var lines=[APP+' \u2014 My Journal','Exported '+new Date().toLocaleString(),''];var last=null;
   keys.forEach(function(k){var d=idx[k].day;if(d!==last){last=d;lines.push('','==== Day '+d+' \u00b7 '+DAYS[d-1].section+' \u00b7 '+DAYS[d-1].title+' ====');}
-    lines.push('','Q'+k.split('-')[1]+'. '+idx[k].q,'',j[k].t,'('+new Date(j[k].ts).toLocaleString()+')');});
+    lines.push('','Q'+idx[k].n+'. '+idx[k].q,'',j[k].t,'('+new Date(j[k].ts).toLocaleString()+')');});
   var blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});
   var a=el('a',{href:URL.createObjectURL(blob),download:'my-big-book-journal-'+new Date().toISOString().slice(0,10)+'.txt'});document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);toast('Journal exported');
