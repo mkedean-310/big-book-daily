@@ -354,4 +354,40 @@ main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Loading\u2
 fetch('data.json').then(function(r){return r.json();}).then(function(d){DATA=d;DAYS=d.days;READ=d.readings;STEPS=d.steps||[];route();})
  .catch(function(){main.innerHTML='';main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Could not load the readings. Please check your connection and try again.'})]));});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
+/* "God" pop-up: Big Book p. 47 */
+(function(){
+  var P47=['When, therefore, we speak to you of God, we mean your own conception of God. This applies, too, to other spiritual expressions which you find in this book. Do not let any prejudice you may have against spiritual terms deter you from honestly asking yourself what they mean to you. At the start, this was all we needed to commence spiritual growth, to effect our first conscious relation with God as we understood Him. Afterward, we found ourselves accepting many things which then seemed entirely out of reach. That was growth, but if we wished to grow we had to begin somewhere. So we used our own conception, however limited it was.','We needed to ask ourselves but one short question. \u201cDo I now believe, or am I even willing to believe, that there is a Power greater than myself?\u201d'];
+  var ov=null,lastFocus=null;
+  function build(){
+    ov=el('div',{class:'gdov',hidden:''});
+    var x=el('button',{class:'gdx',type:'button','aria-label':'Close',text:'\u00d7'});
+    var box=el('div',{class:'gdlg',role:'dialog','aria-modal':'true','aria-label':'What we mean by God',tabindex:'-1'},[x,el('div',{class:'gdbody'},P47.map(function(t){return el('p',{text:t});}).concat([el('p',{class:'cite',text:'(page 47)'})]))]);
+    ov.appendChild(box);document.body.appendChild(ov);
+    x.addEventListener('click',close);
+    ov.addEventListener('click',function(e){if(e.target===ov)close();});
+    document.addEventListener('keydown',function(e){if(!ov.hidden&&e.key==='Escape')close();});
+  }
+  function open(){if(!ov)build();lastFocus=document.activeElement;ov.hidden=false;document.body.classList.add('gdopen');ov.querySelector('.gdbody').scrollTop=0;ov.querySelector('.gdx').focus();}
+  function close(){ov.hidden=true;document.body.classList.remove('gdopen');if(lastFocus&&lastFocus.focus)lastFocus.focus({preventScroll:true});}
+  var SKIP=/^(H1|H2|H3|H4|NAV|BUTTON|A|TEXTAREA|INPUT|SELECT|OPTION|SCRIPT|STYLE|LABEL)$/;
+  function skip(n){for(;n&&n!==main;n=n.parentNode){if(n.nodeType!==1)continue;if(SKIP.test(n.tagName)||n.isContentEditable||(n.classList&&(n.classList.contains('godw')||n.classList.contains('gdov')||n.classList.contains('tabs'))))return true;}return false;}
+  var RE=/\bGod\b/;
+  /* Only the FIRST "God" on each rendered view is highlighted. */
+  function godify(){
+    if(main.querySelector('.godw'))return;
+    var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,null),t;
+    while((t=w.nextNode())){if(RE.test(t.nodeValue)&&!skip(t.parentNode)){wrapFirst(t);return;}}
+  }
+  function wrapFirst(t){
+    var s=t.nodeValue,m=RE.exec(s),f=document.createDocumentFragment();
+    f.appendChild(document.createTextNode(s.slice(0,m.index)));
+    f.appendChild(el('span',{class:'godw',role:'button',tabindex:'0',title:'What we mean by God','aria-label':'God (what we mean by God)',text:'God'}));
+    f.appendChild(document.createTextNode(s.slice(m.index+3)));t.parentNode.replaceChild(f,t);
+  }
+  main.addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('.godw');if(g){e.preventDefault();e.stopPropagation();open();}},true);
+  main.addEventListener('keydown',function(e){if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('godw')){e.preventDefault();open();}});
+  new MutationObserver(function(){godify();}).observe(main,{childList:true,subtree:true});
+  godify();
+  window.__godOpen=open;
+})();
 })();

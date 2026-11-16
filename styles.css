@@ -176,3 +176,15 @@ mark{background:color-mix(in srgb,var(--gold) 40%,transparent);color:inherit;bor
 .post .li.sub .n{min-width:1.1em}
 .prayer.boxq .bq{white-space:pre-line}
 .prayer.boxq.alt{background:transparent;border:1.5px dashed var(--gold);margin-top:22px}
+.godw{color:inherit;text-decoration:underline dotted var(--gold);text-decoration-thickness:2px;text-underline-offset:3px;cursor:pointer;border-radius:3px}
+.godw:hover,.godw:focus-visible{background:rgba(201,162,74,.16);outline:none}
+.gdov{position:fixed;inset:0;z-index:100;background:rgba(10,16,30,.55);display:flex;align-items:flex-end;justify-content:center;padding:0}
+.gdov[hidden]{display:none}
+.gdlg{position:relative;background:var(--card);color:var(--ink);width:100%;max-width:640px;max-height:85vh;border-radius:18px 18px 0 0;border-top:3px solid var(--gold);box-shadow:0 -8px 30px rgba(0,0,0,.25);display:flex;flex-direction:column}
+.gdbody{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:26px 22px 22px;font-size:calc(18px * var(--fs));line-height:1.65}
+.gdbody p{margin:0 0 1em}
+.gdbody .cite{text-align:right;color:var(--gold);font-style:italic;margin:0}
+.gdx{position:absolute;top:6px;right:8px;width:40px;height:40px;border:0;background:transparent;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;border-radius:10px}
+.gdx:focus-visible{outline:2px solid var(--gold)}
+@media (min-width:700px){.gdov{align-items:center;padding:20px}.gdlg{border-radius:18px;border:1px solid var(--line);border-top:3px solid var(--gold)}}
+body.gdopen{overflow:hidden}
