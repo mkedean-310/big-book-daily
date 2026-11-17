@@ -351,7 +351,7 @@ document.querySelectorAll('[data-th]').forEach(function(b){b.addEventListener('c
 
 /* ---------- boot ---------- */
 main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Loading\u2026'})]));
-fetch('data.json').then(function(r){return r.json();}).then(function(d){DATA=d;DAYS=d.days;READ=d.readings;STEPS=d.steps||[];route();})
+fetch('data.json').then(function(r){return r.json();}).then(function(d){DATA=d;DAYS=d.days;READ=d.readings;STEPS=d.steps||[];if(/^#\/?today\/?$/.test(location.hash)&&!done().length&&ls(K.cur,null)===null){try{history.replaceState(null,'',location.pathname+location.search+'#/');}catch(e){location.hash='#/';}}route();})
  .catch(function(){main.innerHTML='';main.appendChild(el('div',{class:'wrap'},[el('p',{class:'empty',text:'Could not load the readings. Please check your connection and try again.'})]));});
 if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});}
 /* "God" pop-up: Big Book p. 47 */
