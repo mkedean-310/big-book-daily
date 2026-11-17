@@ -372,16 +372,25 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
   var SKIP=/^(H1|H2|H3|H4|NAV|BUTTON|A|TEXTAREA|INPUT|SELECT|OPTION|SCRIPT|STYLE|LABEL)$/;
   function skip(n){for(;n&&n!==main;n=n.parentNode){if(n.nodeType!==1)continue;if(SKIP.test(n.tagName)||n.isContentEditable||(n.classList&&(n.classList.contains('godw')||n.classList.contains('gdov')||n.classList.contains('tabs'))))return true;}return false;}
   var RE=/\bGod\b/;
-  /* Only the FIRST "God" on each rendered view is highlighted. */
+  /* On each rendered view: highlight the first "God" in the reading and the first "God" in the questions. */
+  function inQ(n){var e=n.nodeType===1?n:n.parentNode;return !!(e&&e.closest&&e.closest('.q'));}
   function godify(){
-    if(main.querySelector('.godw'))return;
-    var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,null),t;
-    while((t=w.nextNode())){if(RE.test(t.nodeValue)&&!skip(t.parentNode)){wrapFirst(t);return;}}
+    var needR=!main.querySelector('.godw[data-z="r"]'),needQ=!main.querySelector('.godw[data-z="q"]');
+    if(!needR&&!needQ)return;
+    var w=document.createTreeWalker(main,NodeFilter.SHOW_TEXT,null),t,todo=[];
+    while((t=w.nextNode())){
+      if(!RE.test(t.nodeValue)||skip(t.parentNode))continue;
+      var z=inQ(t)?'q':'r';
+      if(z==='r'&&needR){todo.push([t,z]);needR=false;}
+      else if(z==='q'&&needQ){todo.push([t,z]);needQ=false;}
+      if(!needR&&!needQ)break;
+    }
+    todo.forEach(function(p){wrapFirst(p[0],p[1]);});
   }
-  function wrapFirst(t){
+  function wrapFirst(t,z){
     var s=t.nodeValue,m=RE.exec(s),f=document.createDocumentFragment();
     f.appendChild(document.createTextNode(s.slice(0,m.index)));
-    f.appendChild(el('span',{class:'godw',role:'button',tabindex:'0',title:'What we mean by God','aria-label':'God (what we mean by God)',text:'God'}));
+    f.appendChild(el('span',{class:'godw','data-z':z,role:'button',tabindex:'0',title:'What we mean by God','aria-label':'God (what we mean by God)',text:'God'}));
     f.appendChild(document.createTextNode(s.slice(m.index+3)));t.parentNode.replaceChild(f,t);
   }
   main.addEventListener('click',function(e){var g=e.target.closest&&e.target.closest('.godw');if(g){e.preventDefault();e.stopPropagation();open();}},true);
